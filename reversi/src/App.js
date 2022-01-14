@@ -2,15 +2,18 @@ import logo from './logo.svg';
 import './App.css';
 import React, { useState, useEffect } from 'react';
 import Message from './components/Message';
+import Row from './components/Row';
+import StatusBar from './components/StatusBar';
+
 
 
 function App() {
 
-  const [boardArray, setBoardArray] = useState(0);
+  const [boardArray, setBoardArray] = useState(null);
   const [size, setSize] = useState(8);
-  const [black_turn, setBlack_turn] = useState(true);
-  const [black, setBlack] = useState(2);
-  const [white, setWhite] = useState(2);
+  const [black_turn_it, setBlack_turn] = useState(true);
+  const [blackOne, setBlack] = useState(2);
+  const [whiteOne, setWhite] = useState(2);
   const [gameOver, setGameOver] = useState(false);
 
   let wholeArray = new Array(8);
@@ -52,10 +55,10 @@ function App() {
   }
 
   const checkMove = (i, j, apply, black_turn) => {
-    let black = black,
-      white = white;
+    let black = blackOne,
+      white = whiteOne;
     let newArray = [...boardArray];
-    let our = black_turn === undefined ? (~~!black_turn) : (~~!black_turn);
+    let our = black_turn === undefined ? (~~!black_turn_it) : (~~!black_turn);
     let other = ~~!our;
     let otherX, otherY, ourX, ourY;
     let moved = false;
@@ -440,36 +443,20 @@ function App() {
   }
   
   const handleClick = (i, j) => {
-    // check if current player as a valid move at given position
-    // if yes, set the state variables accordingly
-    //    check if the other player has no pieces, if so declare the result
-    //    other wise, check if the other player has a move in the entire board
-    //    if yes, set next players turn
-    //    if not, check if the current player has a move in the entire board
-    //    if not, count pieces and declare results
-    //    if yes, do nothing
-    // if no, do nothing
-    //
-
-    // let newArray = [...this.state.array];
-    // newArray[i][j] = ~~!this.state.black_turn;
-    // this.setState({
-    //   array: newArray,
-    //   black_turn: !this.state.black_turn
-    // });
 
     if (boardArray[i][j] !== undefined) {
       return;
     }
 
     let moved = checkMove(i, j, true).moved;
+    let black_turn_now = black_turn_it;
     if (moved) {
       let hasMove = false;
-      console.log('checking possible move for', black_turn ? 'white' : 'black');
+      console.log('checking possible move for', black_turn_now ? 'white' : 'black');
       for (let i = 0; i < 8; i++) {
         for (let j = 0; j < 8; j++) {
           if (boardArray[i][j] === undefined) {
-            if (checkMove(i, j, false, !black_turn).foundMove) {
+            if (checkMove(i, j, false, !black_turn_now).foundMove) {
               console.log('checking ', i, j, true);
               hasMove = true;
               break;
@@ -477,15 +464,15 @@ function App() {
           }
         }
         if (hasMove) {
-          console.log('found possible move for', black_turn ? 'white' : 'black');
-          this.setState({ black_turn: !black_turn });
+          console.log('found possible move for', black_turn_now ? 'white' : 'black');
+          setBlack_turn(!black_turn_now);
           break;
         }
       }
       if (!hasMove) {
         console.log('current player has no moves! passing turn to other player');
-        //this.setState({black_turn: !black_turn});
-        console.log('checking possible move for', black_turn ? 'white' : 'black');
+        //setState({black_turn_now: !black_turn_now});
+        console.log('checking possible move for', black_turn_now ? 'white' : 'black');
         for (let i = 0; i < 8; i++) {
           for (let j = 0; j < 8; j++) {
             if (boardArray[i][j] === undefined) {
@@ -496,7 +483,7 @@ function App() {
             }
           }
           if (hasMove) {
-            console.log('found possible move for', !black_turn ? 'white' : 'black');
+            console.log('found possible move for', !black_turn_now ? 'white' : 'black');
             break;
           }
         }
@@ -506,14 +493,25 @@ function App() {
         }
       }
     }
+    //this.setState({black_turn_now: black_turn});
 
   }
   
   return (
     <div>
-      <Message resetFn={resetBoard} show={gameOver} black={black} white={white} />
+      <Message resetFn={resetBoard} show={gameOver} black={blackOne} white={whiteOne} />
       <div className="layout">
-        {console.log(boardArray)}
+        {/* {console.log(boardArray)} */}
+        { boardArray ? <Row over={gameOver} key={0} i={0} handleClick={handleClick} array={boardArray[0]}/> : null}
+        { boardArray ? <Row over={gameOver} key={1} i={1} handleClick={handleClick} array={boardArray[1]}/> : null}
+        { boardArray ? <Row over={gameOver} key={2} i={2} handleClick={handleClick} array={boardArray[2]}/> : null}
+        { boardArray ? <Row over={gameOver} key={3} i={3} handleClick={handleClick} array={boardArray[3]}/> : null}
+        { boardArray ? <Row over={gameOver} key={4} i={4} handleClick={handleClick} array={boardArray[4]}/> : null}
+        { boardArray ? <Row over={gameOver} key={5} i={5} handleClick={handleClick} array={boardArray[5]}/> : null}
+        { boardArray ? <Row over={gameOver} key={6} i={6} handleClick={handleClick} array={boardArray[6]}/> : null}
+        { boardArray ? <Row over={gameOver} key={7} i={7} handleClick={handleClick} array={boardArray[7]}/> : null}
+        <StatusBar black={blackOne} white={whiteOne} black_turn={black_turn_it} />
+
       </div>
     </div>
   );
