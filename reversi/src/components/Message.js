@@ -1,7 +1,7 @@
 import React from 'react';
 import './Message.css';
 
-function MessageBox(props){
+function Message(props){
     
         let winner, first, second, classes = "message-box";
         if (props.show) {
@@ -24,11 +24,11 @@ function MessageBox(props){
             return (
                 <div>
                     <div className={classes}>{`${winner} wins: ${first} - ${second}`}</div>
-                    <button className="new-game" onClick={this.props.resetFn}> New Game </button>
+                    <button className="new-game" onClick={props.resetFn}> New Game </button>
                 </div>
             )
         }
     
 }
 
-export default MessageBox;
+export default Message;
