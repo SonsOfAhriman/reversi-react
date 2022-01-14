@@ -477,6 +477,7 @@ function App() {
   
   return (
     <div>
+      <div>UNDEFINED INTERVIEW PROJECT - Ryan</div>
       <Message resetFn={resetBoard} show={gameOver} black={blackOne} white={whiteOne} />
       <div className="layout">
         {/* {console.log(boardArray)} */}
