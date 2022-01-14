@@ -58,8 +58,12 @@ function App() {
     let black = blackOne,
       white = whiteOne;
     let newArray = [...boardArray];
+    console.log(~~black_turn_it);
+    console.log(~~!black_turn_it);
     let our = black_turn === undefined ? (~~!black_turn_it) : (~~!black_turn);
     let other = ~~!our;
+    console.log(~~!black_turn);
+
     let otherX, otherY, ourX, ourY;
     let moved = false;
     let foundMove = false;
@@ -83,8 +87,6 @@ function App() {
     }
     if (foundOur && ourY < j - 1) {
       if (!apply) {
-        console.log('found move for', black_turn ? 'black' : 'white', 'at', i, j)
-        //return {true, false};
         return { foundMove: true, moved: false };
       }
       for (let col = ourY + 1; apply && col < j; col++) {
@@ -125,10 +127,8 @@ function App() {
         otherY = col;
       }
     }
-    //foundOur && console.log('↙', foundOur);
     if (foundOur && ourX > i + 1 && ourY < j + 1) {
       if (!apply) {
-        console.log('found move for', black_turn ? 'black' : 'white', 'at', i, j)
         return { foundMove: true, moved: false };
       }
       //foundMove = true;
@@ -176,7 +176,6 @@ function App() {
     if (foundOur && ourX > i + 1) {
       if (!apply) {
         //return {true, false};
-        console.log('found move for', black_turn ? 'black' : 'white', 'at', i, j)
         return { foundMove: true, moved: false };
       }
       //foundMove = true;
@@ -218,12 +217,8 @@ function App() {
         otherY = col;
       }
     }
-    //foundOur && console.log('↘', foundOur);
     if (foundOur && ourX > i + 1 && ourY > j + 1) {
-      //foundMove = true;
       if (!apply) {
-        //return {true, false};
-        console.log('found move for', black_turn ? 'black' : 'white', 'at', i, j)
         return { foundMove: true, moved: false };
       }
       for (let row = ourX - 1, col = ourY - 1; apply && row > i && col > j; row--, col--) {
@@ -266,12 +261,8 @@ function App() {
         otherY = col;
       }
     }
-    //foundOur && console.log('→', foundOur);
     if (foundOur && ourY > j + 1) {
-      //foundMove = true;
       if (!apply) {
-        //return {true, false};
-        console.log('found move for', black_turn ? 'black' : 'white', 'at', i, j)
         return { foundMove: true, moved: false };
       }
       for (let col = ourY - 1; apply && col > j; col--) {
@@ -312,12 +303,8 @@ function App() {
         otherY = col;
       }
     }
-    //foundOur && console.log('↗', foundOur);
     if (foundOur && ourX < i - 1 && ourY > j + 1) {
-      //foundMove = true;
       if (!apply) {
-        //return {true, false};
-        console.log('found move for', black_turn ? 'black' : 'white', 'at', i, j)
         return { foundMove: true, moved: false };
       }
       for (let row = ourX + 1, col = ourY - 1; apply && row < i && col > j; row++, col--) {
@@ -359,12 +346,8 @@ function App() {
         otherY = j;
       }
     }
-    //foundOur && console.log('↑', foundOur);
     if (foundOur && ourX < i - 1) {
-      //foundMove = true;
       if (!apply) {
-        //return {true, false};
-        console.log('found move for', black_turn ? 'black' : 'white', 'at', i, j)
         return { foundMove: true, moved: false };
       }
       for (let row = ourX + 1; apply && row < i; row++) {
@@ -406,10 +389,8 @@ function App() {
         otherY = col;
       }
     }
-    //foundOur && console.log('↖', foundOur);
     if (foundOur && ourX < i - 1 && ourY < j - 1) {
       if (!apply) {
-        console.log('found move for', black_turn ? 'black' : 'white', 'at', i, j)
         return { foundMove: true, moved: false };
       }
       for (let row = ourX + 1, col = ourY + 1; apply && row < i && col < j; row++, col++) {
@@ -452,12 +433,10 @@ function App() {
     let black_turn_now = black_turn_it;
     if (moved) {
       let hasMove = false;
-      console.log('checking possible move for', black_turn_now ? 'white' : 'black');
       for (let i = 0; i < 8; i++) {
         for (let j = 0; j < 8; j++) {
           if (boardArray[i][j] === undefined) {
             if (checkMove(i, j, false, !black_turn_now).foundMove) {
-              console.log('checking ', i, j, true);
               hasMove = true;
               break;
             }
@@ -470,7 +449,7 @@ function App() {
         }
       }
       if (!hasMove) {
-        console.log('current player has no moves! passing turn to other player');
+        console.log('current player has no moves remaining! Changing to other player');
         //setState({black_turn_now: !black_turn_now});
         console.log('checking possible move for', black_turn_now ? 'white' : 'black');
         for (let i = 0; i < 8; i++) {
@@ -489,11 +468,10 @@ function App() {
         }
         if (!hasMove) {
           setGameOver(true);
-          console.log('both players don\'t have any move. The game is finished');
+          console.log('both players don\'t have any moves remaining. The game is finished');
         }
       }
     }
-    //this.setState({black_turn_now: black_turn});
 
   }
   
