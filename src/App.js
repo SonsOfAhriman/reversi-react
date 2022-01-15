@@ -13,6 +13,7 @@ function App() {
   const [blackOne, setBlack] = useState(2);
   const [whiteOne, setWhite] = useState(2);
   const [gameOver, setGameOver] = useState(false);
+  const [n, setN] = useState([0, 1, 2, 3, 4, 5, 6, 7]);
 
   let wholeArray = Array.from(Array(8), () => new Array(8))
 
@@ -31,26 +32,6 @@ function App() {
     setBoardArray(wholeArray);
   }, []); 
 
-
-  const resetBoard = () => {
-
-    let array = Array.from(Array(8), () => new Array(8))
-
-    // white: 1
-    // black: 0
-    // empty: undefined
-    array[3][3] = 1;
-    array[3][4] = 0;
-    array[4][3] = 0;
-    array[4][4] = 1;
-
-    setBoardArray(array);
-    setSize(8);
-    setBlack_turn(true);
-    setBlack(2);
-    setWhite(2);
-    setGameOver(false);
-  }
   
   const handleClick = (i, j) => {
 
@@ -102,6 +83,26 @@ function App() {
       }
     }
 
+  }
+
+  const resetBoard = () => {
+
+    let array = Array.from(Array(8), () => new Array(8))
+
+    // white: 1
+    // black: 0
+    // empty: undefined
+    array[3][3] = 1;
+    array[3][4] = 0;
+    array[4][3] = 0;
+    array[4][4] = 1;
+
+    setBoardArray(array);
+    setSize(8);
+    setBlack_turn(true);
+    setBlack(2);
+    setWhite(2);
+    setGameOver(false);
   }
 
   const checkMove = (i, j, apply, black_turn) => {
@@ -465,14 +466,9 @@ function App() {
       <Message resetFn={resetBoard} show={gameOver} black={blackOne} white={whiteOne} />
       <div className="layout">
         {/* {console.log(boardArray)} */}
-        { boardArray ? <Row over={gameOver} key={0} i={0} handleClick={handleClick} array={boardArray[0]}/> : null}
-        { boardArray ? <Row over={gameOver} key={1} i={1} handleClick={handleClick} array={boardArray[1]}/> : null}
-        { boardArray ? <Row over={gameOver} key={2} i={2} handleClick={handleClick} array={boardArray[2]}/> : null}
-        { boardArray ? <Row over={gameOver} key={3} i={3} handleClick={handleClick} array={boardArray[3]}/> : null}
-        { boardArray ? <Row over={gameOver} key={4} i={4} handleClick={handleClick} array={boardArray[4]}/> : null}
-        { boardArray ? <Row over={gameOver} key={5} i={5} handleClick={handleClick} array={boardArray[5]}/> : null}
-        { boardArray ? <Row over={gameOver} key={6} i={6} handleClick={handleClick} array={boardArray[6]}/> : null}
-        { boardArray ? <Row over={gameOver} key={7} i={7} handleClick={handleClick} array={boardArray[7]}/> : null}
+ 
+        { boardArray ? n.map((el) => <Row over={gameOver} key={el} i={el} handleClick={handleClick} array={boardArray[el]}/> ) : null}
+
         <StatusBar black={blackOne} white={whiteOne} black_turn={black_turn_it} />
 
       </div>
