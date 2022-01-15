@@ -1,11 +1,9 @@
 import logo from './logo.svg';
 import './App.css';
 import React, { useState, useEffect } from 'react';
-import Message from './components/Message';
-import Row from './components/Row';
-import StatusBar from './components/StatusBar';
-
-
+import Message from './components/Message/Message';
+import Row from './components/Row/Row';
+import StatusBar from './components/StatusBar/StatusBar';
 
 function App() {
 
@@ -52,6 +50,58 @@ function App() {
     setBlack(2);
     setWhite(2);
     setGameOver(false);
+  }
+  
+  const handleClick = (i, j) => {
+
+    if (boardArray[i][j] !== undefined) {
+      return;
+    }
+
+    let moved = checkMove(i, j, true).moved;
+    let black_turn_now = black_turn_it;
+    if (moved) {
+      let hasMove = false;
+      for (let i = 0; i < 8; i++) {
+        for (let j = 0; j < 8; j++) {
+          if (boardArray[i][j] === undefined) {
+            if (checkMove(i, j, false, !black_turn_now).foundMove) {
+              hasMove = true;
+              break;
+            }
+          }
+        }
+        if (hasMove) {
+          console.log('found possible move for', black_turn_now ? 'white' : 'black');
+          setBlack_turn(!black_turn_now);
+          break;
+        }
+      }
+      if (!hasMove) {
+        console.log('current player has no moves remaining! Changing to other player');
+        //setState({black_turn_now: !black_turn_now});
+        console.log('checking possible move for', black_turn_now ? 'white' : 'black');
+        for (let i = 0; i < 8; i++) {
+          for (let j = 0; j < 8; j++) {
+            if (boardArray[i][j] === undefined) {
+              if (checkMove(i, j, false).foundMove) {
+                hasMove = true;
+                break;
+              }
+            }
+          }
+          if (hasMove) {
+            console.log('found possible move for', !black_turn_now ? 'white' : 'black');
+            break;
+          }
+        }
+        if (!hasMove) {
+          setGameOver(true);
+          console.log('both players don\'t have any moves remaining. The game is finished');
+        }
+      }
+    }
+
   }
 
   const checkMove = (i, j, apply, black_turn) => {
@@ -407,58 +457,6 @@ function App() {
       setWhite(white);
     }
     return { foundMove: foundMove, moved: moved };
-  }
-  
-  const handleClick = (i, j) => {
-
-    if (boardArray[i][j] !== undefined) {
-      return;
-    }
-
-    let moved = checkMove(i, j, true).moved;
-    let black_turn_now = black_turn_it;
-    if (moved) {
-      let hasMove = false;
-      for (let i = 0; i < 8; i++) {
-        for (let j = 0; j < 8; j++) {
-          if (boardArray[i][j] === undefined) {
-            if (checkMove(i, j, false, !black_turn_now).foundMove) {
-              hasMove = true;
-              break;
-            }
-          }
-        }
-        if (hasMove) {
-          console.log('found possible move for', black_turn_now ? 'white' : 'black');
-          setBlack_turn(!black_turn_now);
-          break;
-        }
-      }
-      if (!hasMove) {
-        console.log('current player has no moves remaining! Changing to other player');
-        //setState({black_turn_now: !black_turn_now});
-        console.log('checking possible move for', black_turn_now ? 'white' : 'black');
-        for (let i = 0; i < 8; i++) {
-          for (let j = 0; j < 8; j++) {
-            if (boardArray[i][j] === undefined) {
-              if (checkMove(i, j, false).foundMove) {
-                hasMove = true;
-                break;
-              }
-            }
-          }
-          if (hasMove) {
-            console.log('found possible move for', !black_turn_now ? 'white' : 'black');
-            break;
-          }
-        }
-        if (!hasMove) {
-          setGameOver(true);
-          console.log('both players don\'t have any moves remaining. The game is finished');
-        }
-      }
-    }
-
   }
   
   return (

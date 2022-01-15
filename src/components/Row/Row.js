@@ -1,7 +1,7 @@
 import React from 'react';
 import './Row.css';
-import './Cell.css';
-import Cell from './Cell';
+import '../Cell/Cell.css';
+import Cell from '../Cell/Cell';
 
 function Row(props) {
 
