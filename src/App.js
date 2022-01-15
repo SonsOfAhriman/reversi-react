@@ -16,10 +16,11 @@ function App() {
   const [whiteOne, setWhite] = useState(2);
   const [gameOver, setGameOver] = useState(false);
 
-  let wholeArray = new Array(8);
-  for (let i = 0; i < 8; i++) {
-    wholeArray[i] = new Array(8);
-  }
+  let wholeArray = Array.from(Array(8), () => new Array(8))
+
+  // wholeArray = wholeArray.map(nested => nested = new Array(8));
+  console.log(wholeArray);
+
   // white: 1
   // black: 0
   // empty: undefined
@@ -34,10 +35,9 @@ function App() {
 
 
   const resetBoard = () => {
-    let array = new Array(8);
-    for (let i = 0; i < 8; i++) {
-      array[i] = new Array(8);
-    }
+
+    let array = Array.from(Array(8), () => new Array(8))
+
     // white: 1
     // black: 0
     // empty: undefined
@@ -68,9 +68,9 @@ function App() {
     let moved = false;
     let foundMove = false;
 
-    // checking ←
     let foundOur = false;
     let foundOther = false;
+
     for (let col = j - 1; col >= 0; col--) {
       if (newArray[i][col] !== other) {
         if (newArray[i][col] === our) {
@@ -110,7 +110,6 @@ function App() {
       }
     }
 
-    // checking ↙
     foundOur = false;
     foundOther = false;
     for (let row = i + 1, col = j - 1; row < 8 && col >= 0; row++, col--) {
@@ -131,10 +130,8 @@ function App() {
       if (!apply) {
         return { foundMove: true, moved: false };
       }
-      //foundMove = true;
       for (let row = ourX - 1, col = ourY + 1; apply && row > i && col < j; row--, col++) {
         newArray[row][col] = our;
-        //our == 1 ? white++ : black++;
         if (our === 1) {
           white += 1;
           black -= 1;
@@ -144,7 +141,6 @@ function App() {
         }
         moved = true;
       }
-      // newArray[i][j] = our;
       if (apply && newArray[i][j] !== our) {
         newArray[i][j] = our;
         if (our === 1) {
@@ -155,7 +151,6 @@ function App() {
       }
     }
 
-    // checking ↓
     foundOur = false;
     foundOther = false;
     for (let row = i + 1; row < 8; row++) {
@@ -178,7 +173,7 @@ function App() {
         //return {true, false};
         return { foundMove: true, moved: false };
       }
-      //foundMove = true;
+
       for (let row = ourX - 1; apply && row > i; row--) {
         newArray[row][j] = our;
         if (our === 1) {
@@ -200,7 +195,6 @@ function App() {
       }
     }
 
-    // checking ↘
     foundOur = false;
     foundOther = false;
     for (let row = i + 1, col = j + 1; row < 8 && col < 8; row++, col++) {
@@ -223,7 +217,6 @@ function App() {
       }
       for (let row = ourX - 1, col = ourY - 1; apply && row > i && col > j; row--, col--) {
         newArray[row][col] = our;
-        //our == 1 ? white++ : black++;
         if (our === 1) {
           white += 1;
           black -= 1;
@@ -243,8 +236,6 @@ function App() {
       }
     }
 
-
-    // checking →
     foundOur = false;
     foundOther = false;
     for (let col = j + 1; col < 8; col++) {
@@ -286,7 +277,6 @@ function App() {
       }
     }
 
-    // checking ↗
     foundOur = false;
     foundOther = false;
     for (let row = i - 1, col = j + 1; row >= 0 && col < 8; row--, col++) {
@@ -310,7 +300,6 @@ function App() {
       for (let row = ourX + 1, col = ourY - 1; apply && row < i && col > j; row++, col--) {
         newArray[row][col] = our;
         moved = true;
-        //our == 1 ? white++ : black++;
         if (our === 1) {
           white += 1;
           black -= 1;
@@ -329,7 +318,6 @@ function App() {
       }
     }
 
-    // checking ↑
     foundOur = false;
     foundOther = false;
     for (let row = i - 1; row >= 0; row--) {
@@ -371,7 +359,6 @@ function App() {
       }
     }
 
-    // checking ↖
     foundOur = false;
     foundOther = false;
 
@@ -413,7 +400,6 @@ function App() {
         }
       }
     }
-
 
     if (apply) {
       setBoardArray(newArray);
